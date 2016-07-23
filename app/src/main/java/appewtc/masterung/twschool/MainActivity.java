@@ -1,5 +1,6 @@
 package appewtc.masterung.twschool;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
 
     //Get Event from Click
     public void clickSignUpMain(View view) {
+
+        startActivity(new Intent(MainActivity.this, SignUpActivity.class));
 
     }
 
