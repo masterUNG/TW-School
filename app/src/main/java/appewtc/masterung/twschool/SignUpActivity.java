@@ -10,6 +10,16 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+
+import java.io.IOException;
+
 public class SignUpActivity extends AppCompatActivity {
 
     //Explicit
@@ -19,7 +29,7 @@ public class SignUpActivity extends AppCompatActivity {
     private RadioButton studentRadioButton, teacherRadioButton;
     private String nameString, surnameString, roomString, userString,
             passwordString, statusString = "1", QRcodeString;
-
+    private static final String urlPHP = "http://swiftcodingthai.com/tw/add_user_master.php";
 
 
     @Override
@@ -132,6 +142,35 @@ public class SignUpActivity extends AppCompatActivity {
     }   // confirmValue
 
     private void upLoadValueToServer() {
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        RequestBody requestBody = new FormEncodingBuilder()
+                .add("isAdd", "true")
+                .add("Name", nameString)
+                .add("Surname", surnameString)
+                .add("Status", statusString)
+                .add("Room", roomString)
+                .add("Lat", "0")
+                .add("Lng", "0")
+                .add("User", userString)
+                .add("Password", passwordString)
+                .add("QRcode", QRcodeString)
+                .build();
+        Request.Builder builder = new Request.Builder();
+        Request request = builder.url(urlPHP).post(requestBody).build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                finish();
+            }
+        });
+
 
     }   // upLoad
 
