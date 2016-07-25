@@ -113,6 +113,12 @@ public class MainActivity extends AppCompatActivity {
                     switch (Integer.parseInt(loginStrings[3])) {
                         case 0:
                             //Teacher
+
+                            Intent teacherIntent = new Intent(MainActivity.this, TeacherService.class);
+                            teacherIntent.putExtra("Login", loginStrings);
+                            startActivity(teacherIntent);
+                            finish();
+
                             break;
                         case 1:
                             //Student
