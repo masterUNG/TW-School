@@ -117,10 +117,20 @@ public class MainActivity extends AppCompatActivity {
                         case 1:
                             //Student
 
-                            Intent intent = new Intent(MainActivity.this, StudentService.class);
-                            intent.putExtra("Login", loginStrings);
-                            startActivity(intent);
-                            finish();
+                            if (Integer.parseInt(loginStrings[5]) == 0) {
+                                //Non Setup position Home
+                                Intent intent = new Intent(MainActivity.this, EditStudent.class);
+                                intent.putExtra("Login", loginStrings);
+                                startActivity(intent);
+                                finish();
+                            } else {
+
+                                Intent intent = new Intent(MainActivity.this, StudentService.class);
+                                intent.putExtra("Login", loginStrings);
+                                startActivity(intent);
+                                finish();
+
+                            }   // if
 
                             break;
                     } //switch
