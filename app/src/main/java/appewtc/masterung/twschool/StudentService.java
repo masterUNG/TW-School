@@ -1,7 +1,8 @@
 package appewtc.masterung.twschool;
 
-import android.support.v4.app.FragmentActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -9,6 +10,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -40,6 +42,11 @@ public class StudentService extends FragmentActivity implements OnMapReadyCallba
 
     public void clickEditStudent(View view) {
 
+        Intent intent = new Intent(StudentService.this, EditStudent.class);
+        intent.putExtra("Login", loginStrings);
+        startActivity(intent);
+        finish();
+
     }
 
     public void clickExitStudent(View view) {
@@ -51,12 +58,31 @@ public class StudentService extends FragmentActivity implements OnMapReadyCallba
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        //For Setup Center Map
+        final double twLat = 15.350664;   // Latitude ของ ตากฟ้า
+        final double twLng = 100.491939;
+
+        LatLng latLng = new LatLng(twLat, twLng);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+
+        //For Marker School
+        mMap.addMarker(new MarkerOptions()
+        .position(latLng)
+        .icon(BitmapDescriptorFactory.fromResource(R.drawable.tw_logo48))
+        .title("โรงเรียนตากฟ้าวิชาประสิทธิ์")
+        .snippet("โรงเรียนมัธยมอันดับหนึ่งของ นครสวรรค์"));
+
+        //For Marker Student
+        LatLng studentLatLng1 = new LatLng(Double.parseDouble(loginStrings[5]),
+                Double.parseDouble(loginStrings[6]));
+        mMap.addMarker(new MarkerOptions()
+        .position(studentLatLng1)
+        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+        .title(loginStrings[1] + " " + loginStrings[2])
+        .snippet("ห้อง " + loginStrings[4]));
+
+
+
     }   // onMap
-
-
 
 }   // Main Class
