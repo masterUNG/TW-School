@@ -117,14 +117,17 @@ public class MainActivity extends AppCompatActivity {
                         case 1:
                             //Student
 
-                            if (Integer.parseInt(loginStrings[5]) == 0) {
+                            Log.d("25JulyV1", "Lat ==> " + loginStrings[5]);
+
+                            if (Double.parseDouble(loginStrings[5]) == 0) {
                                 //Non Setup position Home
+                                Log.d("25JulyV1", "Boolent " + "True");
                                 Intent intent = new Intent(MainActivity.this, EditStudent.class);
                                 intent.putExtra("Login", loginStrings);
                                 startActivity(intent);
                                 finish();
                             } else {
-
+                                Log.d("25JulyV1", "Boolent " + "True");
                                 Intent intent = new Intent(MainActivity.this, StudentService.class);
                                 intent.putExtra("Login", loginStrings);
                                 startActivity(intent);

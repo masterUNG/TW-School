@@ -1,5 +1,6 @@
 package appewtc.masterung.twschool;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -13,6 +14,15 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+
+import java.io.IOException;
 
 public class EditStudent extends FragmentActivity implements OnMapReadyCallback {
 
@@ -21,6 +31,7 @@ public class EditStudent extends FragmentActivity implements OnMapReadyCallback 
     private EditText nameEditText, surnameEditText, roomEditText;
     private String[] loginStrings;
     private double studentLatADouble = 0, studentLngADouble = 0;
+    private static final String urlPHP = "http://swiftcodingthai.com/tw/edit_user_master.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +73,35 @@ public class EditStudent extends FragmentActivity implements OnMapReadyCallback 
 
     private void uploadValue() {
 
+        OkHttpClient okHttpClient = new OkHttpClient();
+        RequestBody requestBody = new FormEncodingBuilder()
+                .add("isAdd", "true")
+                .add("id", loginStrings[0])
+                .add("Name", nameEditText.getText().toString().trim())
+                .add("Surname", surnameEditText.getText().toString().trim())
+                .add("Room", roomEditText.getText().toString().trim())
+                .add("Lat", Double.toString(studentLatADouble))
+                .add("Lng", Double.toString(studentLngADouble))
+                .build();
+        Request.Builder builder = new Request.Builder();
+        Request request = builder.url(urlPHP).post(requestBody).build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
 
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+
+                Intent intent = new Intent(EditStudent.this, StudentService.class);
+                intent.putExtra("Login", loginStrings);
+                startActivity(intent);
+                finish();
+
+            }
+        });
 
     }   // upload
 
