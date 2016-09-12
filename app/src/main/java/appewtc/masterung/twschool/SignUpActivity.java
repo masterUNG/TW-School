@@ -1,13 +1,18 @@
 package appewtc.masterung.twschool;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.squareup.okhttp.Call;
@@ -18,19 +23,22 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 public class SignUpActivity extends AppCompatActivity {
 
     //Explicit
-    private EditText nameEditText, surnameEditText, roomEditText,
+    private EditText nameEditText, surnameEditText,
             userEditText, passwordEditText;
     private RadioGroup radioGroup;
     private RadioButton studentRadioButton, teacherRadioButton;
     private String nameString, surnameString, roomString, userString,
             passwordString, statusString = "1", QRcodeString;
     private static final String urlPHP = "http://swiftcodingthai.com/tw/add_user_pitawan.php";
-
+    private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +48,16 @@ public class SignUpActivity extends AppCompatActivity {
         //Initial Widget
         nameEditText = (EditText) findViewById(R.id.editText);
         surnameEditText = (EditText) findViewById(R.id.editText2);
-        roomEditText = (EditText) findViewById(R.id.editText3);
+        spinner = (Spinner) findViewById(R.id.spnRoom);
         userEditText = (EditText) findViewById(R.id.editText4);
         passwordEditText = (EditText) findViewById(R.id.editText5);
         radioGroup = (RadioGroup) findViewById(R.id.ragStatus);
         studentRadioButton = (RadioButton) findViewById(R.id.radioButton);
         teacherRadioButton = (RadioButton) findViewById(R.id.radioButton2);
+
+        //Spinner Controller
+        SynRoom synRoom = new SynRoom(this, spinner);
+        synRoom.execute();
 
         //Radio Controller
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -73,18 +85,83 @@ public class SignUpActivity extends AppCompatActivity {
 
     }   // Main Method
 
+    private class SynRoom extends AsyncTask<Void, Void, String> {
+
+        //Explicit
+        private Context context;
+        private Spinner mySpinner;
+        private static final String urlRoomJSON = "http://swiftcodingthai.com/tw/get_room_master.php";
+        private String[] roomStrings;
+
+        public SynRoom(Context context, Spinner mySpinner) {
+            this.context = context;
+            this.mySpinner = mySpinner;
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+            try {
+
+                OkHttpClient okHttpClient = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                Request request = builder.url(urlRoomJSON).build();
+                Response response = okHttpClient.newCall(request).execute();
+                return response.body().string();
+
+
+            } catch (Exception e) {
+                Log.d("12SepV1", "e doIn ==> " + e.toString());
+                return null;
+            }
+
+        }   // doInBack
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            Log.d("12SepV1", "JSON ==> " + s);
+
+            try {
+
+                JSONArray jsonArray = new JSONArray(s);
+                roomStrings = new String[jsonArray.length()];
+                for (int i=0;i<jsonArray.length();i+=1) {
+
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    roomStrings[i] = jsonObject.getString("Room");
+
+                }   // for
+
+                ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(context,
+                        android.R.layout.simple_list_item_1, roomStrings);
+
+
+
+                mySpinner.setAdapter(stringArrayAdapter);
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }   // onPost
+
+    }   // SynRoom Class
+
     public void clickSignUpSign(View view) {
 
         //Get Value From Edit Text
         nameString = nameEditText.getText().toString().trim();
         surnameString = surnameEditText.getText().toString().trim();
-        roomString = roomEditText.getText().toString().trim();
+
         userString = userEditText.getText().toString().trim();
         passwordString = passwordEditText.getText().toString().trim();
 
         //Check Space
         if (nameString.equals("") || surnameString.equals("") ||
-                roomString.equals("") || userString.equals("") ||
+                 userString.equals("") ||
                 passwordString.equals("")) {
             //Have Space
 
@@ -119,7 +196,7 @@ public class SignUpActivity extends AppCompatActivity {
         builder.setMessage("Name = " + nameString + "\n" +
         "Surname = " + surnameString + "\n" +
         "Status = " + showStatus(statusString) + "\n" +
-        "Room = " + roomString + "\n" +
+        "Room = " + "test" + "\n" +
         "User = " + userString + "\n" +
         "Password = " + passwordString + "\n" +
         "QRcode = " + QRcodeString);
@@ -149,7 +226,7 @@ public class SignUpActivity extends AppCompatActivity {
                 .add("Name", nameString)
                 .add("Surname", surnameString)
                 .add("Status", statusString)
-                .add("Room", roomString)
+                .add("Room", "test")
                 .add("Lat", "0")
                 .add("Lng", "0")
                 .add("User", userString)

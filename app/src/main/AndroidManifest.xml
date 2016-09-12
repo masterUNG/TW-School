@@ -43,7 +43,10 @@
         <activity
             android:name=".EditStudent"
             android:label="@string/title_activity_edit_student" />
-        <activity android:name=".TeacherService"></activity>
+        <activity android:name=".TeacherService" />
+        <activity
+            android:name=".TeacherLogin"
+            android:label="@string/title_activity_teacher_login"></activity>
     </application>
 
 </manifest>

@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                         case 0:
                             //Teacher
 
-                            Intent teacherIntent = new Intent(MainActivity.this, TeacherService.class);
+                            Intent teacherIntent = new Intent(MainActivity.this, TeacherLogin.class);
                             teacherIntent.putExtra("Login", loginStrings);
                             startActivity(teacherIntent);
                             finish();
