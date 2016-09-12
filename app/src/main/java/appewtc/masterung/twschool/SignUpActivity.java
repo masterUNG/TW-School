@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -137,9 +138,18 @@ public class SignUpActivity extends AppCompatActivity {
                 ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(context,
                         android.R.layout.simple_list_item_1, roomStrings);
 
-
-
                 mySpinner.setAdapter(stringArrayAdapter);
+                mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        roomString = roomStrings[i];
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+                        roomString = roomStrings[0];
+                    }
+                });
 
 
             } catch (Exception e) {
@@ -196,7 +206,7 @@ public class SignUpActivity extends AppCompatActivity {
         builder.setMessage("Name = " + nameString + "\n" +
         "Surname = " + surnameString + "\n" +
         "Status = " + showStatus(statusString) + "\n" +
-        "Room = " + "test" + "\n" +
+        "Room = " + roomString + "\n" +
         "User = " + userString + "\n" +
         "Password = " + passwordString + "\n" +
         "QRcode = " + QRcodeString);
@@ -226,7 +236,7 @@ public class SignUpActivity extends AppCompatActivity {
                 .add("Name", nameString)
                 .add("Surname", surnameString)
                 .add("Status", statusString)
-                .add("Room", "test")
+                .add("Room", roomString)
                 .add("Lat", "0")
                 .add("Lng", "0")
                 .add("User", userString)
