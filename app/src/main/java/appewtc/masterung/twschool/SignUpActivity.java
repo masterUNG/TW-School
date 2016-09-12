@@ -29,7 +29,7 @@ public class SignUpActivity extends AppCompatActivity {
     private RadioButton studentRadioButton, teacherRadioButton;
     private String nameString, surnameString, roomString, userString,
             passwordString, statusString = "1", QRcodeString;
-    private static final String urlPHP = "http://swiftcodingthai.com/tw/add_user_master.php";
+    private static final String urlPHP = "http://swiftcodingthai.com/tw/add_user_pitawan.php";
 
 
     @Override

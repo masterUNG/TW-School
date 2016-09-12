@@ -31,7 +31,7 @@ public class EditStudent extends FragmentActivity implements OnMapReadyCallback 
     private EditText nameEditText, surnameEditText, roomEditText;
     private String[] loginStrings;
     private double studentLatADouble = 0, studentLngADouble = 0;
-    private static final String urlPHP = "http://swiftcodingthai.com/tw/edit_user_master.php";
+    private static final String urlPHP = "http://swiftcodingthai.com/tw/edit_user_pitawan.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
