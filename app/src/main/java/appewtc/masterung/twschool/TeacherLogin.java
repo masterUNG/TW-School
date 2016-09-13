@@ -33,6 +33,7 @@ public class TeacherLogin extends FragmentActivity implements OnMapReadyCallback
     private TextView textView;
     private static final String urlJSON = "http://swiftcodingthai.com/tw/get_user_where_room_master.php";
     private String jsonString;
+    private boolean statusABoolean = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,9 @@ public class TeacherLogin extends FragmentActivity implements OnMapReadyCallback
 
         textView = (TextView) findViewById(R.id.textView15);
 
+        //Get Value from Intent
         userLoginStrings = getIntent().getStringArrayExtra("Login");
+        statusABoolean = getIntent().getBooleanExtra("Status", false);
 
         textView.setText(userLoginStrings[1] + " " +
         userLoginStrings[2] + " ห้อง " + userLoginStrings[4]);
@@ -62,6 +65,7 @@ public class TeacherLogin extends FragmentActivity implements OnMapReadyCallback
         intent.putExtra("Surname", surnameStudentStrings);
         intent.putExtra("Lat", latStrings);
         intent.putExtra("Lng", lngStrings);
+        intent.putExtra("Login", userLoginStrings);
 
         startActivity(intent);
     }
@@ -75,12 +79,27 @@ public class TeacherLogin extends FragmentActivity implements OnMapReadyCallback
         final double twLat = 15.350664;   // Latitude ของ ตากฟ้า
         final double twLng = 100.491939;
 
-        LatLng latLng = new LatLng(twLat, twLng);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+        if (statusABoolean) {
+            //Center ==> Student
+            String strLat = getIntent().getStringExtra("Lat");
+            String strLng = getIntent().getStringExtra("Lng");
+            double douLat = Double.parseDouble(strLat);
+            double douLng = Double.parseDouble(strLng);
+            LatLng latLng = new LatLng(douLat, douLng);
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+
+
+        } else {
+            //Center ==> School
+            LatLng latLng = new LatLng(twLat, twLng);
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+        }
+
+
 
         //For Marker School
         mMap.addMarker(new MarkerOptions()
-                .position(latLng)
+                .position(new LatLng(twLat, twLng))
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.tw_logo48))
                 .title("โรงเรียนตากฟ้าวิชาประสิทธิ์")
                 .snippet("โรงเรียนมัธยมอันดับหนึ่งของ นครสวรรค์"));
