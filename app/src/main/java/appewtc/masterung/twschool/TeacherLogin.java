@@ -56,6 +56,13 @@ public class TeacherLogin extends FragmentActivity implements OnMapReadyCallback
 
     public void clickListAllStudent(View view) {
         Intent intent = new Intent(TeacherLogin.this, ListAllStudent.class);
+
+        intent.putExtra("Room", userLoginStrings[4]);
+        intent.putExtra("Name", nameStudentStrings);
+        intent.putExtra("Surname", surnameStudentStrings);
+        intent.putExtra("Lat", latStrings);
+        intent.putExtra("Lng", lngStrings);
+
         startActivity(intent);
     }
 
