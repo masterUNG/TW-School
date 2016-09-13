@@ -129,7 +129,8 @@ public class TeacherLogin extends FragmentActivity implements OnMapReadyCallback
                     Log.d("12SepV3", "Lat(" + i + ") = " + latStrings[i]);
                     Log.d("12SepV3", "Lng(" + i + ") = " + lngStrings[i]);
 
-                    addMyMarker(latStrings[i], lngStrings[i]);
+                    addMyMarker(latStrings[i], lngStrings[i],
+                            (nameStudentStrings[i] + " " + surnameStudentStrings[i]));
 
                 }   // for
 
@@ -144,9 +145,14 @@ public class TeacherLogin extends FragmentActivity implements OnMapReadyCallback
 
 
 
-    private void addMyMarker(String latString, String lngString) {
+    private void addMyMarker(String latString,
+                             String lngString,
+                             String strTitle) {
         mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(Double.parseDouble(latString), Double.parseDouble(lngString))));
-    }
+                .position(new LatLng(Double.parseDouble(latString), Double.parseDouble(lngString)))
+        .title(strTitle));
+
+
+    }   // addMyMarker
 
 }   // Main Class
