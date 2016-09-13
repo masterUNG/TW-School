@@ -75,5 +75,16 @@
             android:inputType="textPassword"
             android:textColor="@color/text"
             android:textColorHint="@color/text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Developer by..."
+            android:id="@+id/textView20"
+            android:textColor="@color/text"
+            android:layout_marginTop="20dp"
+            android:textStyle="italic"
+            android:clickable="true"
+            android:onClick="clickDeveloperBy" />
     </LinearLayout>
 </RelativeLayout>
