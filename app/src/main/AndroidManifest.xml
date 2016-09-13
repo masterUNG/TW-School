@@ -46,7 +46,8 @@
         <activity android:name=".TeacherService" />
         <activity
             android:name=".TeacherLogin"
-            android:label="@string/title_activity_teacher_login"></activity>
+            android:label="@string/title_activity_teacher_login" />
+        <activity android:name=".ListAllStudent"></activity>
     </application>
 
 </manifest>
