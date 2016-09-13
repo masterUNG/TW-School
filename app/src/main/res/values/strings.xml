@@ -1,10 +1,12 @@
 <resources>
-    <string name="app_name">Easy Takfa</string>
+    <string name="app_name">Takfa School</string>
 
     <string name="signup">สมัครสมาชิก</string>
     <string name="title_activity_student_service">Map</string>
     <string name="title_activity_edit_student">Map</string>
     <string name="title_activity_teacher_login">Map</string>
+
+    <string name="school">โรงเรียนตากฟ้าวิชาประสิทธิ์</string>
 
 
 </resources>
