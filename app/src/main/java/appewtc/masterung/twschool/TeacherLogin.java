@@ -1,9 +1,11 @@
 package appewtc.masterung.twschool;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -49,7 +51,14 @@ public class TeacherLogin extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }   // Main Method
+
+    public void clickListAllStudent(View view) {
+        Intent intent = new Intent(TeacherLogin.this, ListAllStudent.class);
+        startActivity(intent);
+    }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
